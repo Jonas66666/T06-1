@@ -68,10 +68,7 @@ const drawHistogram = (data) => {
         .call(bottomAxis)
         .classed("x-axis", true);
 
-    // Remove the domain path from x-axis
-    xAxisGroup.select(".domain").remove();
-
-    // Add custom x-axis line that only spans the data area
+    // Add custom x-axis line that spans the data area
     xAxisGroup
         .append("line")
         .attr("x1", 0)
@@ -79,7 +76,7 @@ const drawHistogram = (data) => {
         .attr("y1", 0)
         .attr("y2", 0)
         .attr("stroke", "#7f8c8d")
-        .attr("stroke-width", 1.5)
+        .attr("stroke-width", 2)
         .attr("class", "axis-line");
 
     // Add the x-axis label
@@ -99,10 +96,7 @@ const drawHistogram = (data) => {
         .call(leftAxis)
         .classed("y-axis", true);
 
-    // Remove the domain path from y-axis
-    yAxisGroup.select(".domain").remove();
-
-    // Add custom y-axis line that only spans the data area
+    // Add custom y-axis line that spans the data area
     yAxisGroup
         .append("line")
         .attr("x1", 0)
@@ -110,7 +104,7 @@ const drawHistogram = (data) => {
         .attr("y1", 0)
         .attr("y2", innerHeight)
         .attr("stroke", "#7f8c8d")
-        .attr("stroke-width", 1.5)
+        .attr("stroke-width", 2)
         .attr("class", "axis-line");
 
     // Add the y-axis label
@@ -162,7 +156,7 @@ const drawHistogram = (data) => {
             tooltip
                 .style("opacity", 1)
                 .html(`
-                    <strong>Energy Range:</strong> ${d.x0} - ${d.x1} kWh/yr<br>
+                    <strong>Energy Range:</strong> ${d.x0.toFixed(0)} - ${d.x1.toFixed(0)} kWh/yr<br>
                     <strong>Count:</strong> ${d.length} TVs
                 `)
                 .style("left", (event.pageX + 10) + "px")

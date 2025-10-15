@@ -112,3 +112,47 @@
     background-color: #893101;
     box-shadow: 0 4px 8px rgba(137, 49, 1, 0.3);
 }
+
+/* Scatterplot specific styles */
+.scatter-point {
+    transition: all 0.3s ease;
+}
+
+.scatter-point:hover {
+    stroke: #333;
+    stroke-width: 1px;
+}
+
+.legend text {
+    font-size: 12px;
+    fill: #333;
+}
+
+/* Scatterplot axis styling */
+#scatterplot .axis-line {
+    stroke: #7f8c8d;
+    stroke-width: 2px;
+    shape-rendering: crispEdges;
+}
+
+#scatterplot .x-axis path,
+#scatterplot .y-axis path {
+    stroke: #7f8c8d;
+    stroke-width: 2px;
+    fill: none;
+    shape-rendering: crispEdges;
+}
+
+#scatterplot .x-axis line,
+#scatterplot .y-axis line {
+    stroke: #bdc3c7;
+    stroke-width: 1px;
+    shape-rendering: crispEdges;
+}
+
+#scatterplot .x-axis text,
+#scatterplot .y-axis text {
+    fill: #5b3e31;
+    font-size: 12px;
+    font-family: 'Arial', sans-serif;
+}
