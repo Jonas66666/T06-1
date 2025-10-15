@@ -42,7 +42,7 @@ const drawHistogram = (data) => {
     /***********************************/
     /* Draw the bars of the histogram */
     /**********************************/
-    innerChart
+    const bars = innerChart
         .selectAll("rect")
         .data(bins)
         .join("rect")
@@ -51,7 +51,10 @@ const drawHistogram = (data) => {
             .attr("width", d => Math.max(0, xScale(d.x1) - xScale(d.x0) - 1)) // Ensure positive width with gap
             .attr("height", d => innerHeight - yScale(d.length))
             .attr("fill", barColor)
-            .attr("class", "bar");
+            .attr("class", "bar")
+            .attr("data-x0", d => d.x0) // Store bin range for tooltip
+            .attr("data-x1", d => d.x1)
+            .attr("data-count", d => d.length);
 
     /*************/
     /* Add axes */
@@ -59,10 +62,25 @@ const drawHistogram = (data) => {
     const bottomAxis = d3.axisBottom(xScale);
 
     // Add the x-axis to the bottom of the chart relative to the inner chart
-    innerChart
+    const xAxisGroup = innerChart
         .append("g")
         .attr("transform", `translate(0,${innerHeight})`) 
-        .call(bottomAxis);
+        .call(bottomAxis)
+        .classed("x-axis", true);
+
+    // Remove the domain path from x-axis
+    xAxisGroup.select(".domain").remove();
+
+    // Add custom x-axis line that only spans the data area
+    xAxisGroup
+        .append("line")
+        .attr("x1", 0)
+        .attr("x2", innerWidth)
+        .attr("y1", 0)
+        .attr("y2", 0)
+        .attr("stroke", "#7f8c8d")
+        .attr("stroke-width", 1.5)
+        .attr("class", "axis-line");
 
     // Add the x-axis label
     svg
@@ -76,9 +94,24 @@ const drawHistogram = (data) => {
     const leftAxis = d3.axisLeft(yScale);
 
     // Add the y-axis to the left of the chart relative to the inner chart
-    innerChart
+    const yAxisGroup = innerChart
         .append("g")
-        .call(leftAxis);
+        .call(leftAxis)
+        .classed("y-axis", true);
+
+    // Remove the domain path from y-axis
+    yAxisGroup.select(".domain").remove();
+
+    // Add custom y-axis line that only spans the data area
+    yAxisGroup
+        .append("line")
+        .attr("x1", 0)
+        .attr("x2", 0)
+        .attr("y1", 0)
+        .attr("y2", innerHeight)
+        .attr("stroke", "#7f8c8d")
+        .attr("stroke-width", 1.5)
+        .attr("class", "axis-line");
 
     // Add the y-axis label
     svg
@@ -89,7 +122,7 @@ const drawHistogram = (data) => {
         .attr("x", -height / 2)
         .attr("y", 15)
         .text("Frequency");
-
+        
     // Add chart title
     svg
         .append("text")
@@ -98,4 +131,56 @@ const drawHistogram = (data) => {
         .attr("x", width / 2)
         .attr("y", 20)
         .text("TV Energy Consumption Distribution");
+
+    /*********************/
+    /* Add hover effects */
+    /*********************/
+    
+    // Create tooltip
+    const tooltip = d3.select("body")
+        .append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0)
+        .style("position", "absolute")
+        .style("background", "rgba(0, 0, 0, 0.8)")
+        .style("color", "white")
+        .style("padding", "8px")
+        .style("border-radius", "4px")
+        .style("font-size", "12px")
+        .style("pointer-events", "none");
+
+    // Add hover events to bars
+    bars
+        .on("mouseover", function(event, d) {
+            // Highlight bar
+            d3.select(this)
+                .transition()
+                .duration(200)
+                .attr("fill", "#2980b9");
+            
+            // Show tooltip
+            tooltip
+                .style("opacity", 1)
+                .html(`
+                    <strong>Energy Range:</strong> ${d.x0} - ${d.x1} kWh/yr<br>
+                    <strong>Count:</strong> ${d.length} TVs
+                `)
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY - 28) + "px");
+        })
+        .on("mousemove", function(event) {
+            tooltip
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY - 28) + "px");
+        })
+        .on("mouseout", function() {
+            // Restore bar color
+            d3.select(this)
+                .transition()
+                .duration(200)
+                .attr("fill", barColor);
+            
+            // Hide tooltip
+            tooltip.style("opacity", 0);
+        });
 }

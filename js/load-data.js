@@ -1,5 +1,5 @@
 // Load the CSV file with a row conversion function
-d3.csv("data/Exit_TVdata.csv", d => ({
+d3.csv("data/Ex6_TVdata.csv", d => ({
     brand: d.brand,
     model: d.model,
     screenSize: +d.screenSize, // Convert Screensize to a number

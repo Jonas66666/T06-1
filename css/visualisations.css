@@ -16,7 +16,8 @@
 .axis-label {
     font-family: 'Arial', sans-serif;
     font-size: 14px;
-    fill: #8B4513; /* Dark brown */
+    fill: #2c3e50;
+    font-weight: bold;
 }
 
 .chart-title {
@@ -24,26 +25,90 @@
     font-size: 18px;
     fill: #2c3e50;
     text-anchor: middle;
+    font-weight: bold;
 }
 
 .bar {
-    fill: #3498db;
-    transition: fill 0.3s;
+    fill: #C5C6C7;
+    transition: all 0.3s;
+    cursor: pointer;
 }
 
 .bar:hover {
-    fill: #2980b9;
+    fill: #6a6767;
 }
 
-.axis path,
+/* Axis styling - remove default domain paths */
+.axis .domain {
+    display: none;
+}
+
 .axis line {
     fill: none;
-    stroke: #ccc;
+    stroke: #bdc3c7;
     shape-rendering: crispEdges;
 }
 
 .axis text {
     font-family: 'Arial', sans-serif;
     font-size: 12px;
-    fill: #666;
+    fill: #5b3e31;
+}
+
+/* Remove the old axis path styling since we're using custom lines */
+.x-axis path,
+.y-axis path {
+    display: none;
+}
+
+/* Tooltip styling */
+.tooltip {
+    position: absolute;
+    background: rgba(44, 62, 80, 0.95);
+    color: white;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    pointer-events: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid #3498db;
+    z-index: 1000;
+    max-width: 200px;
+}
+
+.tooltip strong {
+    color: #3498db;
+}
+
+/* Filter buttons styling */
+#filter_screen, #filter_size {
+    margin: 1rem 0;
+    padding: 1.5rem;
+    background-color: #ecf0f1;
+    border-radius: 8px;
+    border: 1px solid #bdc3c7;
+}
+
+.filter-btn {
+    padding: 0.6rem 1.2rem;
+    margin: 0.3rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #CC5500;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.filter-btn:hover {
+    background-color: #FAB972;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.filter-btn.active {
+    background-color: #893101;
+    box-shadow: 0 4px 8px rgba(137, 49, 1, 0.3);
 }
