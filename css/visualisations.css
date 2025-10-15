@@ -1,0 +1,49 @@
+/* Responsive container of the svg element */
+.responsive-svg-container {
+    width: 100%;
+    max-width: 1000px;
+    height: 500px;
+    margin: 0 auto;
+}
+
+@media screen and (max-width: 500px) {
+    .responsive-svg-container {
+        margin: 20px;
+        height: 400px;
+    }
+}
+
+.axis-label {
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    fill: #8B4513; /* Dark brown */
+}
+
+.chart-title {
+    font-family: 'Arial', sans-serif;
+    font-size: 18px;
+    fill: #2c3e50;
+    text-anchor: middle;
+}
+
+.bar {
+    fill: #3498db;
+    transition: fill 0.3s;
+}
+
+.bar:hover {
+    fill: #2980b9;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #ccc;
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    fill: #666;
+}
